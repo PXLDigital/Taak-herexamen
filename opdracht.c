@@ -41,6 +41,13 @@ int main(int argc, char const *argv[])
     printf("INFO: File %s CLOSED\n", argv[1]);
 
     //----------------------------------------
+
+    cleanup(pixels, header, totaalAantalPixels, argv[2]);
+
+    //-----------------------------------------
+}
+
+void zwartwit(unsigned char * pixels, signed int hoogte, signed int breedte){
     int doorgaan = 0;
     int Rf = 0;
     int Gf = 0;
@@ -101,11 +108,7 @@ int main(int argc, char const *argv[])
             if (Bf < pixels[startloc]) {pixels[startloc] = Bf;}// blauw
         }
     }
-    cleanup(pixels, header, totaalAantalPixels, argv[2]);
-
-    //-----------------------------------------
 }
-
 
 void cleanup(unsigned char *pixels, unsigned char *header, int totaalAantalPixels, const char * output)
 {
