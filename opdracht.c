@@ -48,52 +48,48 @@ int main(int argc, char const *argv[])
 }
 
 void filter(unsigned char * pixels, signed int hoogte, signed int breedte){
-    int doorgaan = 0;
     int Rf = 0;
     int Gf = 0;
     int Bf = 0;
-    while (doorgaan == 0)
+    while (1)
     {
         printf("Rood filter geef een getal (0 - 255) :");
         scanf("%i",&Rf);
         if (Rf >= 0 && Rf <= 255)
         {
-            doorgaan = 1;
+            break;
         }
         else
         {
             printf("%i zit niet tussen 0 en 255\n",Rf);
         }
     }
-    doorgaan = 0;
-   while (doorgaan == 0)
+    while (1)
     {
         printf("Groen filter geef een getal (0 - 255) :");
         scanf("%i",&Gf);
         if (Gf >= 0 && Gf <= 255)
         {
-            doorgaan = 1;
+            break;
         }
         else
         {
             printf("%i zit niet tussen 0 en 255\n",Gf);
         }
     }
-    doorgaan = 0;
-    while (doorgaan == 0)
+    while (1)
     {
         printf("Blauw filter geef een getal (0 - 255) :");
         scanf("%i",&Bf);
         if (Bf >= 0 && Bf <= 255)
         {
-            doorgaan = 1;
+            break;
         }
         else
         {
             printf("%i zit niet tussen 0 en 255\n",Bf);
         }
     }
-    doorgaan = 0;
     
     for (int y = 0; y < hoogte; ++y)
     {
