@@ -1,42 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void filter(unsigned char *pixels, signed int hoogte, signed int breedte);
+void filter(unsigned char *pixels, int totaalpixels);
 void cleanup(unsigned char *pixels, unsigned char *header, int totaalAantalPixels, const char *argv);
 
 int main(int argc, char const *argv[])
 {
-    int input = 0;
-    int output = 0 ;
+    //finding -input
+    int Argvinput = 0;
     for (int i = 0; i < argc; i++)
     {
              if (strcmp(argv[i], "-in") == 0)
         {
-            input = i + 1;
+            Argvinput = i + 1;
             break;
         }
     }
-    if (input == 0)
+    if (Argvinput == 0)
     {
         printf("could not find -in");
         exit(EXIT_FAILURE);
     }
-    
-    for (int i = 0; i < argc; i++)
-    {
-             if (strcmp(argv[i], "-out") == 0)
-        {
-            output = i + 1;
-            break;
-        }
-    }
-   if (output == 0)
-    {
-        printf("could not find -out");
-        exit(EXIT_FAILURE);
-    }
+
     // opening file
-    FILE *inputBMP = fopen(argv[input], "rb");
+    FILE *inputBMP = fopen(argv[Argvinput], "rb");
     unsigned char header[54] = {0};
     signed int hoogte = 0;
     signed int breedte = 0;
@@ -68,20 +55,42 @@ int main(int argc, char const *argv[])
     printf("INFO: Heap memory allocated = %d (bytes)\n", totaalAantalPixels * 3);
 
     fclose(inputBMP);
-    printf("INFO: File %s CLOSED\n", argv[input]);
 
-    //----------------------------------------
-    filter(pixels, hoogte, breedte);
-    cleanup(pixels, header, totaalAantalPixels, argv[output]);
+    printf("INFO: File %s CLOSED\n", argv[Argvinput]);
 
-    //-----------------------------------------
+    //filter process in diffrent function
+    filter(pixels, totaalAantalPixels); 
+
+    //finding -output
+    Argvinput == 0 ;
+    for (int i = 0; i < argc; i++)
+    {
+             if (strcmp(argv[i], "-out") == 0)
+        {
+            Argvinput = i + 1;
+            break;
+        }
+    }
+    if (Argvinput == 0)
+    {
+        printf("could not find -out");
+        exit(EXIT_FAILURE);
+    }
+    
+    //cleaning up diffrent function
+    cleanup(pixels, header, totaalAantalPixels, argv[Argvinput]);
+
+   
 }
 
-void filter(unsigned char *pixels, signed int hoogte, signed int breedte)
+void filter(unsigned char *pixels, int totaalpixels)
 {
+    //initializing 
     int Rf = 0;
     int Gf = 0;
     int Bf = 0;
+
+    //finding color values
     while (1)
     {
         printf("Rood filter geef een getal (0 - 255) :");
@@ -122,27 +131,25 @@ void filter(unsigned char *pixels, signed int hoogte, signed int breedte)
         }
     }
 
-    for (int y = 0; y < hoogte; ++y)
+    //filter algorythm 
+    for (int pixel = 0; pixel < totaalpixels; ++pixel)
     {
-        for (int x = 0; x < breedte; ++x)
-        {
-            long startloc = (x + (y * breedte));
-            startloc *= 3;
+            int startloc = pixel * 3;
             if (Rf < pixels[startloc + 2])
             {
                 pixels[startloc + 2] = Rf;
-            } // Rood
+            } // Red
 
             if (Gf < pixels[startloc + 1])
             {
                 pixels[startloc + 1] = Gf;
-            } //
+            } //green
 
             if (Bf < pixels[startloc])
             {
                 pixels[startloc] = Bf;
-            } // blauw
-        }
+            } // blue
+       
     }
 }
 
