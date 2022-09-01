@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
     printf("INFO: File %s CLOSED\n", argv[Argvinput]);
 
     //filter process in diffrent function
-    filter(pixels, totaalAantalPixels); 
+    filter(pixels,totaalAantalPixels); 
 
     //finding -output
     Argvinput == 0 ;
@@ -154,7 +154,7 @@ void filter(unsigned char *pixels, int totaalpixels)
 }
 
 void cleanup(unsigned char *pixels, unsigned char *header, int totaalAantalPixels, const char *output)
-{
+{   //file creation
     FILE *fpw = fopen(output, "wb");
     if (fpw == NULL)
     {
@@ -162,6 +162,8 @@ void cleanup(unsigned char *pixels, unsigned char *header, int totaalAantalPixel
     }
     fwrite(header, 54, 1, fpw);
     fwrite(pixels, (totaalAantalPixels)*3, 1, fpw);
+
+    //cleaning and realising data
     fclose(fpw);
     free(pixels);
     free(header);
