@@ -155,16 +155,16 @@ void filter(unsigned char *pixels, int totaalpixels)
 
 void cleanup(unsigned char *pixels, unsigned char *header, int totaalAantalPixels, const char *output)
 {   //file creation
-    FILE *fpw = fopen(output, "wb");
-    if (fpw == NULL)
+    FILE *outputbmp = fopen(output, "wb");
+    if (outputbmp == NULL)
     {
         printf("can't create file");
     }
-    fwrite(header, 54, 1, fpw);
-    fwrite(pixels, (totaalAantalPixels)*3, 1, fpw);
+    fwrite(header, 54, 1, outputbmp);
+    fwrite(pixels, (totaalAantalPixels)*3, 1, outputbmp);
 
     //cleaning and realising data
-    fclose(fpw);
+    fclose(outputbmp);
     free(pixels);
     free(header);
     printf("INFO: Heap memory Freed = %d (bytes)\n", totaalAantalPixels * 3);
